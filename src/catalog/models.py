@@ -3,7 +3,7 @@ from django.db import models
 from django.urls import reverse
 import uuid
 
-
+# моделька жанра 
 class Genre(models.Model):
     name = models.CharField(max_length = 200, help_text ='Enter a book genre (e.g. Science Fiction, French Poetry etc.)')
 
@@ -22,6 +22,7 @@ class Genre(models.Model):
 #         self.name = name
     
 
+# Моделька книги 
 class Book(models.Model):
     title = models.CharField(max_length = 200)
     author = models.ForeignKey('Author',on_delete= models.SET_NULL, null = True)
@@ -36,6 +37,7 @@ class Book(models.Model):
     def get_absolute_url(self):
         return reverse('book_detail',args=[str(self.id)])
     
+# Модель экземпляра книги 
 class BookInstance(models.Model):
     # используется для поля id, чтобы установить его как primary_key для этой модели. Этот тип поля выделяет глобальное уникальное значение для каждого экземпляра (по одному для каждой книги, которую вы можете найти в библиотеке).
     id = models.UUIDField(primary_key =True, default = uuid.uuid4, help_text ='Unique ID for this particular book across whole library' )
@@ -43,7 +45,7 @@ class BookInstance(models.Model):
     imprint = models.CharField(max_length=200)
     due_back = models.DateField(null = True , blank=True)
 
-
+# Статусы книги 
     LOAN_STATUS = (
         ('m','Maintenance'),
         ('o','On load'),
@@ -60,7 +62,7 @@ class BookInstance(models.Model):
     def __str__(self):
         return '%s (%s)' % (self.id , self.book.title)
     
-
+# Модель Автор 
 class Author(models.Model):
     first_name = models.CharField(max_length = 100)
     last_name = models.CharField(max_length = 100)
@@ -69,7 +71,6 @@ class Author(models.Model):
 
     def get_absolute_url(self):
         return reverse('author-detail',args=[str(self.id)])
-    
 
     def __str__(self):
         return '%s , %s' % (self.first_name , self.last_name) 
