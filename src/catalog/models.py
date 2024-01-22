@@ -30,7 +30,6 @@ class Book(models.Model):
     isbn = models.CharField('ISBN',max_length = 100, help_text='13 Character <a href="https://www.isbn-international.org/content/what-isbn">ISBN number</a>')
     genre = models.ManyToManyField('Genre',help_text ='Select a genre for this book')
 
-    
     def __str__(self):
         return self.title
     
