@@ -10,7 +10,11 @@ urlpatterns = [
     re_path(r'books/(?P<pk>\d+)$', views.BookDetailView.as_view(), name='book_detail'),
 ]
 
+urlpatterns += [
+    path('authors/', views.AuthorListView.as_view(), name='authors'),
+    path('authors/<int:pk>/', views.AuthorDetailView.as_view(), name='author-detail')
 
+]
 
 # url(r'^/url/$', views.my_reused_view, {'my_template_name': 'some_path'}, name='aurl'),
 # url(r'^/anotherurl/$', views.my_reused_view, {'my_template_name': 'another_path'}, name='anotherurl'),

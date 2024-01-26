@@ -1,0 +1,20 @@
+<h1>Author List</h1>
+
+{% if author_list %}
+  <ul>
+    {% for author in author_list %}
+      <li>
+        <a href="{{ author.get_absolute_url }}">{{ author.full_name }}</a> - {{ author.date_of_birth }} - {{ author.date_of_death }}
+        <ul>
+          {% for book in author.book_set.all %}
+            <li>
+              <a href="{{ book.get_absolute_url }}">{{ book.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>There are no authors in the library.</p>
+{% endif %}

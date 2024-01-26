@@ -1,4 +1,6 @@
 # render() - функцию, которая генерирует HTML-файлы при помощи шаблонов страниц и соответствующих данных.
+from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import render
 from .models import Book ,BookInstance ,Author 
 from django.views import generic
@@ -37,14 +39,13 @@ class BookListView(generic.ListView):
         context = super(BookListView, self).get_context_data(**kwargs)
         context['some_data'] = 'This is just some data'
         return context
+    
 
-class BookDetailView(generic.ListView):
+class BookDetailView(generic.DetailView):
     model = Book
-    paginate_by = 2
+    paginate_by = 5
 
       
-
-
 def book_detail_view(request,pk):
     try:
         book_id=Book.objects.get(pk=pk)
@@ -58,3 +59,33 @@ def book_detail_view(request,pk):
         'catalog/book_detail.html',
         context={'book':book_id,}
     )
+
+
+
+class AuthorListView(generic.ListView):
+    model = Author
+    context_object_name = 'author_list'
+    template_name = 'authors/author_list.html'
+    paginate_by = 3
+
+    def get_queryset(self):
+        return Author.objects.all().order_by('last_name', 'first_name')
+
+
+    def get_context_data(self, **kwargs):
+        context = super(AuthorListView, self).get_context_data(**kwargs)
+        return context
+    
+
+class AuthorDetailView(generic.DetailView):
+    model = Author
+    paginate_by = 3
+    template_name = 'authors/author_detail.html'
+
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get('pk')
+        try:
+            author = Author.objects.get(pk=pk)
+            return author
+        except Author.DoesNotExist:
+            raise Http404('Author does not exist')
