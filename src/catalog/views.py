@@ -12,6 +12,9 @@ def index(request):
     num_book_ins = BookInstance.objects.all().count()
     num_instances_available = BookInstance.objects.filter(status='a').count()
     num_authors = Author.objects.count()
+    num_visits=request.session.get('num_visits', 0)
+    request.session['num_visits'] = num_visits+1
+
 
     all_books = Book.objects.all()  # Получаем все книги
 
@@ -23,6 +26,7 @@ def index(request):
             'num_instances': num_book_ins,
             'num_instances_available': num_instances_available,
             'num_authors': num_authors,
+            'num_visits':num_visits,
             'all_books': all_books,  # Передаем список всех книг в контекст
         },
     )
@@ -89,3 +93,6 @@ class AuthorDetailView(generic.DetailView):
             return author
         except Author.DoesNotExist:
             raise Http404('Author does not exist')
+        
+
+
