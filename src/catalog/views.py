@@ -11,13 +11,18 @@ def index(request):
     num_books = Book.objects.all().count()
     num_book_ins = BookInstance.objects.all().count()
     num_instances_available = BookInstance.objects.filter(status='a').count()
+    # 'all()' подразумевается по умолчанию.
     num_authors = Author.objects.count()
+
+# Количество посещений этого представления, подсчитанное в переменной сеанса.
     num_visits=request.session.get('num_visits', 0)
     request.session['num_visits'] = num_visits+1
 
 
     all_books = Book.objects.all()  # Получаем все книги
 
+
+    # Отображение HTML-шаблона index.html с данными в переменной контекста.
     return render(
         request,
         'index.html',

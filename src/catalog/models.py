@@ -74,4 +74,24 @@ class Author(models.Model):
     def __str__(self):
         return '%s , %s' % (self.first_name , self.last_name) 
     
+
+
+
+
+#Например, вам мог бы подойти данный способ в том случае, если вы разрабатываете интерфейс, который позволяет пользователям создавать их собственные аккаунты 
+#(вы не должны предоставлять доступ пользователям к административной панели вашего сайта).
+
+
+
+
+#     from django.contrib.auth.models import User
+
+# # Создайте пользователя и сохраните его в базе данных
+# user = User.objects.create_user('myusername', 'myemail@crazymail.com', 'mypassword')
+
+# # Обновите поля и сохраните их снова
+# user.first_name = 'John'
+# user.last_name = 'Citizen'
+# user.save()
+    
     

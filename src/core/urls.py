@@ -36,3 +36,8 @@ urlpatterns += [
 
 # средство для обслуживания статических файлов (таких как CSS, JavaScript, изображения) во время разработки
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+
+urlpatterns += [
+    path('accounts/', include('django.contrib.auth.urls'))
+]
