@@ -1,0 +1,41 @@
+
+
+##################
+Метод READ
+
+Author.object.all() показывает все записи 
+Author.object.filter() фильтрует по каким либо полям
+
+Можно использовать цикл for 
+ПРИМЕР
+
+for i in all_workers:
+    print(f'Фамилия:{i.last_name} ,Имя {i.first_name}')
+
+
+##################
+Метод CREATE
+.save()
+.create()
+
+ПРИМЕР
+x = Author(last_name='Иван', first_name='Закорюгин')
+x.save()
+или
+Author.object.create(last_name='Иван', first_name='Закорюгин')
+
+
+###################
+Метод UPDATE
+x = Author.object.get(self.last_name)
+x.last_name = 'Джекович'
+x.save()
+ИЛИ 
+Author.object.filter(id=5).update(last_name = 'Джекович')
+
+
+###################
+Метод DELETE
+X.delete()
+ПРИМЕР
+Author.object.get(id=5).delete()
