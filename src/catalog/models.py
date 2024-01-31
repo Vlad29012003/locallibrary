@@ -47,12 +47,13 @@ class BookInstance(models.Model):
     due_back = models.DateField(null = True , blank=True)
     borrower = models.ForeignKey(User,  on_delete = models.SET_NULL, null = True , blank = True)
 
+    # property этот декоратор говорит Python, что метод is_over предназначен для использования как свойство объекта.
     @property
     def is_over(self):
         if self.due_back and date.today() > self.due_back:
             return True
         return False
-
+    
 # Статусы книги 
     LOAN_STATUS = (
         ('m','Maintenance'),
@@ -65,10 +66,12 @@ class BookInstance(models.Model):
 
     class Meta:
         ordering = ['due_back']
+        permissions = (("can_mark_returned", "Set book as returned"),)
 
 
     def __str__(self):
         return '%s (%s)' % (self.id , self.book.title)
+    
     
 # Модель Автор 
 class Author(models.Model):

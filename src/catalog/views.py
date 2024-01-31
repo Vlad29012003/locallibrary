@@ -1,6 +1,4 @@
 # render() - функцию, которая генерирует HTML-файлы при помощи шаблонов страниц и соответствующих данных.
-from typing import Any
-from django.db.models.query import QuerySet
 from django.shortcuts import render
 from .models import Book ,BookInstance ,Author 
 from django.views import generic
@@ -8,15 +6,16 @@ from django.http import Http404
 from django.contrib.auth.mixins import LoginRequiredMixin # LoginRequiredMixin в Django - это класс-миксин, который добавляет требование аутентификации пользователя к представлению.
 # Если пользователь не вошел в систему, он будет перенаправлен на страницу входа, прежде чем получить доступ к защищенному представлению.
 
-
+# отображает список экземпляров книг, взятых в аренду текущим пользователем
 class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
     model = BookInstance
     template_name = 'catalog/bookinstance_list_borrowed_user.html'
     paginate_by = 10
 
+# Этот метод определяет запрос, который будет использоваться для получения данных для отображения.
     def get_queryset(self):
         return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
-
+        
 
 def index(request):
     num_books = Book.objects.all().count()
@@ -46,6 +45,9 @@ def index(request):
             'all_books': all_books,  # Передаем список всех книг в контекст
         },
     )
+
+
+# отображает список всех экземпляров книг, отображает все книги в библиотеке
 class BookListView(generic.ListView):
     model = Book
     context_object_name = 'book_list'
@@ -61,6 +63,7 @@ class BookListView(generic.ListView):
         return context
     
 
+#  представление отображает детали конкретной книги, используя либо класс BookDetailView (если он используется в URL-маршруте), либо функцию book_detail_view.
 class BookDetailView(generic.DetailView):
     model = Book
     paginate_by = 5
@@ -81,26 +84,26 @@ def book_detail_view(request,pk):
     )
 
 
-
+# представление списка авторов 
 class AuthorListView(generic.ListView):
     model = Author
-    context_object_name = 'author_list'
-    template_name = 'authors/author_list.html'
+    context_object_name = 'author_list' # Устанавливает имя переменной контекста, через которую список авторов будет доступен в шаблоне. В данном случае, переменная называется 
+    template_name = 'authors/author_list.html'  # Задает имя шаблона, который будет использоваться для рендеринга представления.
     paginate_by = 3
 
     def get_queryset(self):
         return Author.objects.all().order_by('last_name', 'first_name')
 
-
     def get_context_data(self, **kwargs):
         context = super(AuthorListView, self).get_context_data(**kwargs)
-        return context
+        return context # В данной реализации метод возвращает базовый контекст без добавления дополнительных данных.
     
 
+#  используется для отображения деталей конкретного автора.    
 class AuthorDetailView(generic.DetailView):
     model = Author
     paginate_by = 3
-    template_name = 'authors/author_detail.html'
+    template_name = 'authors/author_detail.html' # Задает имя шаблона, который будет использоваться для рендеринга представления деталей автора.
 
     def get_object(self, queryset=None):
         pk = self.kwargs.get('pk')
