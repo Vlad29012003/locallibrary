@@ -24,6 +24,14 @@ null = может ли поле иметь значение  True , False
 default =  значения по умолчанию 
 choices =  Позволяет определить ограниченный набор возможных значений.
 
+ПРИМЕР
+
+class MyModel(models.Model):
+    empty_field = models.IntegerField(blank=True, null=True)
+    non_empty_field_with_default = models.IntegerField(blank=False, null=False, default=0)
+    field_with_choices = models.IntegerField(choices=[(1, 'Опция 1'), (2, 'Опция 2'), (3, 'Опция 3')])
+    field_with_choices_and_default = models.IntegerField(choices=[(1, 'Опция 1'), (2, 'Опция 2'), (3, 'Опция 3')],default=1)
+
 
 #############
 DateField
@@ -31,6 +39,13 @@ DateField
 
 auto_now = Если установлено в True, поле будет автоматически устанавливать текущую дату при каждом сохранении объекта.
 auto_now_add = Если установлено в True, поле будет устанавливать текущую дату только при создании объекта.
+
+ПРИМЕР
+
+class MyModel(models.Model):
+    updated_at = models.DateField(auto_now=True)
+    created_at = models.DateField(auto_now_add=True)
+    another_date_field = models.DateField(auto_now=True, blank=True, null=True)
 
 
 #############
@@ -40,12 +55,27 @@ DateTimeField
 auto_now = Если установлено в True, поле будет автоматически устанавливать текущую дату при каждом сохранении объекта.
 auto_now_add = Если установлено в True, поле будет устанавливать текущую дату только при создании объекта.
 
+ПРИМЕР
+class MyModel(models.Model):
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    another_datetime_field = models.DateTimeField(auto_now=True, blank=True, null=True)
+
 
 ############
 ForeignKey
 ############
 to = Указывает на модель, к которой создается внешний ключ.
 on_delete = Определяет действие, которое будет выполнено при удалении связанной записи (например, models.CASCADE означает удаление всех связанных записей).
+
+ПРИМЕР
+class Author(models.Model):
+    name = models.CharField(max_length=100)
+
+class Book(models.Model):
+    title = models.CharField(max_length=200)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+
 
 
 ############
