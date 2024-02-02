@@ -77,30 +77,35 @@ class Book(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
 
 
-
 ############
 BooleanField
 ############
-
 default = Устанавливает значение по умолчанию для поля.
+
+ПРИМЕР
+class Task(models.Model):
+    is_completed = models.BooleanField(default=False)
 
 
 ############
 TextField           предназначен для хранения длинных строк переменной длины.
 ############
-
 max_lenght =  максимальная длина 
+
+ПРИМЕР
+class Article(models.Model):
+    content = models.TextField()
+    short_description = models.TextField(max_length=20)
 
 
 #############
 EmailField    предназначен для хранения и валидации email-адресов в базе данных. Это поле применяется в случаях, когда вы хотите убедиться, что значение, сохраняемое в поле, соответствует формату электронной почты.
 #############
-
 max_length = максимальная длина 
 
-
-
-
+ПРИМЕР
+class UserProfile(models.Model):
+    email = models.EmailField(max_length=255)
 
 
 
