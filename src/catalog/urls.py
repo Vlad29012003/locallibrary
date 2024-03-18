@@ -1,4 +1,4 @@
-from django.urls import path , re_path
+from django.urls import include, path , re_path
 from . import views
 
 from django.urls import path, re_path
@@ -20,6 +20,10 @@ urlpatterns += [
     path('mybooks/', views.LoanedBooksByUserListView.as_view(), name='my-borrowed')
 ]
 
+
+urlpatterns += [
+    path('accounts/',  include('django.contrib.auth.urls')),
+]
 # url(r'^/url/$', views.my_reused_view, {'my_template_name': 'some_path'}, name='aurl'),
 # url(r'^/anotherurl/$', views.my_reused_view, {'my_template_name': 'another_path'}, name='anotherurl'),
 
