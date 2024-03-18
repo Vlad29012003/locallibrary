@@ -1,9 +1,13 @@
 # render() - функцию, которая генерирует HTML-файлы при помощи шаблонов страниц и соответствующих данных.
+from django.http.response import HttpResponse as HttpResponse
 from django.shortcuts import render
 from .models import Book ,BookInstance ,Author 
 from django.views import generic
-from django.http import Http404
-from django.contrib.auth.mixins import LoginRequiredMixin # LoginRequiredMixin в Django - это класс-миксин, который добавляет требование аутентификации пользователя к представлению.
+from django.contrib.auth.views import LogoutView
+from django.urls import reverse_lazy
+from django.http import Http404, HttpRequest
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin  # LoginRequiredMixin в Django - это класс-миксин, который добавляет требование аутентификации пользователя к представлению.
 # Если пользователь не вошел в систему, он будет перенаправлен на страницу входа, прежде чем получить доступ к защищенному представлению.
 
 # отображает список экземпляров книг, взятых в аренду текущим пользователем
@@ -114,4 +118,11 @@ class AuthorDetailView(generic.DetailView):
             raise Http404('Author does not exist')
         
 
+# эта функция не работает 
+class Log_outViews(LogoutView):
+    next_page = reverse_lazy('login')
 
+    def dispatch(self, request , *args , **kwargs):
+        messages.success(request , 'вы успешно вышли из системы!')
+        return super.dispatch(request , *args , **kwargs)
+        

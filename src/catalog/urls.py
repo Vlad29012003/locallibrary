@@ -1,8 +1,9 @@
 from django.urls import include, path , re_path
 from . import views
-
+from django.contrib.auth.views import LogoutView
 from django.urls import path, re_path
 from . import views
+from django.urls import reverse_lazy
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -23,6 +24,11 @@ urlpatterns += [
 
 urlpatterns += [
     path('accounts/',  include('django.contrib.auth.urls')),
+]
+
+
+urlpatterns += [
+    path('logout', LogoutView.as_view(next_page=reverse_lazy('login')), name='logout'),
 ]
 # url(r'^/url/$', views.my_reused_view, {'my_template_name': 'some_path'}, name='aurl'),
 # url(r'^/anotherurl/$', views.my_reused_view, {'my_template_name': 'another_path'}, name='anotherurl'),
