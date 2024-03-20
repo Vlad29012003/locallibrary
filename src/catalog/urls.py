@@ -30,6 +30,14 @@ urlpatterns += [
 urlpatterns += [
     path('logout', LogoutView.as_view(next_page=reverse_lazy('login')), name='logout'),
 ]
+
+
+urlpatterns += [
+    path('borrowed/', views.LoanedBooksBylibrarianstView.as_view(), name='all-borrowed')
+]
+
+
+
 # url(r'^/url/$', views.my_reused_view, {'my_template_name': 'some_path'}, name='aurl'),
 # url(r'^/anotherurl/$', views.my_reused_view, {'my_template_name': 'another_path'}, name='anotherurl'),
 

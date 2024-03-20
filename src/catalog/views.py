@@ -7,6 +7,7 @@ from django.contrib.auth.views import LogoutView
 from django.urls import reverse_lazy
 from django.http import Http404, HttpRequest
 from django.contrib import messages
+from django.contrib.auth.mixins import PermissionRequiredMixin 
 from django.contrib.auth.mixins import LoginRequiredMixin  # LoginRequiredMixin в Django - это класс-миксин, который добавляет требование аутентификации пользователя к представлению.
 # Если пользователь не вошел в систему, он будет перенаправлен на страницу входа, прежде чем получить доступ к защищенному представлению.
 
@@ -126,3 +127,17 @@ class Log_outViews(LogoutView):
         messages.success(request , 'вы успешно вышли из системы!')
         return super.dispatch(request , *args , **kwargs)
         
+
+
+class  LoanedBooksBylibrarianstView(PermissionRequiredMixin , generic.ListView):
+    model = BookInstance
+    permission_required = 'catalog.can_mark_returned'
+    template_name = 'catalog/bookinstance_list_borrowed_librarians.html' 
+    paginate_by = 10 
+
+
+    def get_queryset(self):
+        return BookInstance.objects.filter(status__exact='o').order_by('book', 'book_id', 'borrower' , 'borrower_id', 'due_back' , 'id', 'imprint', 'status')
+
+    
+
