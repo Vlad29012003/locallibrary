@@ -36,12 +36,9 @@ urlpatterns += [
     path('borrowed/', views.LoanedBooksBylibrarianstView.as_view(), name='all-borrowed')
 ]
 
-
 urlpatterns += [
-    path(r'^book/(?P<pk>[-\w]+)/renew/$', views.renew_book_librarian, name='renew-book-librarian'),
+    path('book/<slug:pk>/renew/', views.renew_book_librarian, name='renew-book-librarian'),
 ]
-
-
 
 
 # url(r'^/url/$', views.my_reused_view, {'my_template_name': 'some_path'}, name='aurl'),

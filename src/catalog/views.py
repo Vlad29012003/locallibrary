@@ -1,6 +1,7 @@
 # render() - функцию, которая генерирует HTML-файлы при помощи шаблонов страниц и соответствующих данных.
 from django.http.response import HttpResponse as HttpResponse
 from django.shortcuts import render
+from django.contrib.auth.decorators import permission_required
 from .models import Book ,BookInstance ,Author 
 from django.views import generic
 from django.contrib.auth.views import LogoutView
@@ -145,7 +146,7 @@ class  LoanedBooksBylibrarianstView(PermissionRequiredMixin , generic.ListView):
         return BookInstance.objects.filter(status__exact='o').order_by('book', 'book_id', 'borrower' , 'borrower_id', 'due_back' , 'id', 'imprint', 'status')
 
     
-
+@permission_required('catalog.can_mark_returned')
 def renew_book_librarian(request, pk):
     book_inst = get_object_or_404(BookInstance, pk=pk)
 
