@@ -4,7 +4,8 @@
   <ul>
     {% for author in author_list %}
       <li>
-        <a href="{{ author.get_absolute_url }}">{{ author.full_name }}</a> - {{ author.date_of_birth }} - {{ author.date_of_death }}
+        <!-- Обновите следующую строку, чтобы использовать first_name и last_name -->
+        <a href="{{ author.get_absolute_url }}">{{ author.first_name }} {{ author.last_name }}</a> - {{ author.date_of_birth }} - {{ author.date_of_death }}
         <ul>
           {% for book in author.book_set.all %}
             <li>
@@ -18,3 +19,4 @@
 {% else %}
   <p>There are no authors in the library.</p>
 {% endif %}
+  

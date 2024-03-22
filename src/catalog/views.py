@@ -105,6 +105,11 @@ class AuthorListView(generic.ListView):
     def get_queryset(self):
         return Author.objects.all().order_by('last_name', 'first_name')
 
+    def full_name(self):
+        """Возвращает полное имя автора."""
+        return f"{self.first_name} {self.last_name}"
+
+
     def get_context_data(self, **kwargs):
         context = super(AuthorListView, self).get_context_data(**kwargs)
         return context # В данной реализации метод возвращает базовый контекст без добавления дополнительных данных.
@@ -114,7 +119,7 @@ class AuthorListView(generic.ListView):
 class AuthorDetailView(generic.DetailView):
     model = Author
     paginate_by = 3
-    template_name = 'authors/author_detail.html' # Задает имя шаблона, который будет использоваться для рендеринга представления деталей автора.
+    template_name = 'catalog/author_detail.html' # Задает имя шаблона, который будет использоваться для рендеринга представления деталей автора.
 
     def get_object(self, queryset=None):
         pk = self.kwargs.get('pk')
