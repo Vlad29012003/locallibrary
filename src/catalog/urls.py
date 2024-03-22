@@ -37,6 +37,12 @@ urlpatterns += [
 ]
 
 
+urlpatterns += [
+    path(r'^book/(?P<pk>[-\w]+)/renew/$', views.renew_book_librarian, name='renew-book-librarian'),
+]
+
+
+
 
 # url(r'^/url/$', views.my_reused_view, {'my_template_name': 'some_path'}, name='aurl'),
 # url(r'^/anotherurl/$', views.my_reused_view, {'my_template_name': 'another_path'}, name='anotherurl'),
