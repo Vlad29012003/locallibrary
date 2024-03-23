@@ -17,8 +17,10 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.mixins import LoginRequiredMixin  # LoginRequiredMixin в Django - это класс-миксин, который добавляет требование аутентификации пользователя к представлению.
 # Если пользователь не вошел в систему, он будет перенаправлен на страницу входа, прежде чем получить доступ к защищенному представлению.
 
+
+
 # отображает список экземпляров книг, взятых в аренду текущим пользователем
-class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
+class LoanedBooksByUserListView(LoginRequiredMixin, generic.ListView):
     model = BookInstance
     template_name = 'catalog/bookinstance_list_borrowed_user.html'
     paginate_by = 10
@@ -39,9 +41,7 @@ def index(request):
     num_visits=request.session.get('num_visits', 0)
     request.session['num_visits'] = num_visits+1
 
-
     all_books = Book.objects.all()  # Получаем все книги
-
 
     # Отображение HTML-шаблона index.html с данными в переменной контекста.
     return render(
@@ -130,15 +130,6 @@ class AuthorDetailView(generic.DetailView):
             raise Http404('Author does not exist')
         
 
-# эта функция не работает 
-class Log_outViews(LogoutView):
-    next_page = reverse_lazy('login')
-
-    def dispatch(self, request , *args , **kwargs):
-        messages.success(request , 'вы успешно вышли из системы!')
-        return super.dispatch(request , *args , **kwargs)
-        
-
 
 class  LoanedBooksBylibrarianstView(PermissionRequiredMixin , generic.ListView):
     model = BookInstance
@@ -177,3 +168,8 @@ def renew_book_librarian(request, pk):
         form = RenewBookForm(initial={'renewal_date': proposed_renewal_date,})
 
     return render(request, 'catalog/book_renew_librarian.html', {'form': form, 'bookinst':book_inst})
+
+
+class CustomLogoutView(LogoutView):
+    template_name = 'logged_out.html'
+

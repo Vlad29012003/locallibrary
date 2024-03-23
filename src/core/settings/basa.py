@@ -81,7 +81,6 @@ LANGUAGE_CODE = 'en-us'
 # Перенаправление на домашний URL-адрес после входа в систему (по умолчанию перенаправление на /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
 
-LOGOUT_REDIRECT_URL = '/'
 
 TIME_ZONE = 'UTC'
 

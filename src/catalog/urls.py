@@ -1,44 +1,19 @@
-from django.urls import include, path , re_path
-from . import views
-from django.contrib.auth.views import LogoutView
-from django.urls import path, re_path
-from . import views
-from django.urls import reverse_lazy
+from django.urls import path 
+from .views import CustomLogoutView, index, BookListView, BookDetailView, AuthorListView, AuthorDetailView , LoanedBooksBylibrarianstView , LoanedBooksByUserListView , renew_book_librarian
+
+
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('books/', views.BookListView.as_view(), name='books'),
-    re_path(r'books/(?P<pk>\d+)$', views.BookDetailView.as_view(), name='book_detail'),
-]
-
-urlpatterns += [
-    path('authors/', views.AuthorListView.as_view(), name='authors'),
-    path('authors/<int:pk>/', views.AuthorDetailView.as_view(), name='author-detail'),
+    path('', index, name='index'),
+    path('books/', BookListView.as_view(), name='books'),
+    path('books/<int:pk>/', BookDetailView.as_view(), name='book_detail'),
+    path('authors/', AuthorListView.as_view(), name='authors'),
+    path('authors/<int:pk>/', AuthorDetailView.as_view(), name='author-detail'),
+    path('mybooks/', LoanedBooksByUserListView.as_view(), name='my-borrowed'),
+    path('borrowed/', LoanedBooksBylibrarianstView.as_view(), name='all-borrowed'),
+    path('book/<slug:pk>/renew/', renew_book_librarian, name='renew-book-librarian'),
+    path('logout/', CustomLogoutView.as_view(), name='logout'),
     
-
-]
-
-urlpatterns += [
-    path('mybooks/', views.LoanedBooksByUserListView.as_view(), name='my-borrowed')
-]
-
-
-urlpatterns += [
-    path('accounts/',  include('django.contrib.auth.urls')),
-]
-
-
-urlpatterns += [
-    path('logout', LogoutView.as_view(next_page=reverse_lazy('login')), name='logout'),
-]
-
-
-urlpatterns += [
-    path('borrowed/', views.LoanedBooksBylibrarianstView.as_view(), name='all-borrowed')
-]
-
-urlpatterns += [
-    path('book/<slug:pk>/renew/', views.renew_book_librarian, name='renew-book-librarian'),
 ]
 
 
