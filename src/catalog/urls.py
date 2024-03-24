@@ -16,6 +16,16 @@ urlpatterns = [
     path('book/<uuid:pk>/renew/', views.renew_book_librarian, name='renew-book-librarian'),
 ]
 
+
+
+urlpatterns += [
+    path('author/create/', views.AuthorCreate.as_view(), name='author_create'),
+    path('author/<int:pk>/update', views.AuthorUpdate.as_view(), name='author_update'),
+    path('author/<int:pk>/delete', views.AuthorDelete.as_view(), name='author_delete'),
+]
+
+
+
 # url(r'^/url/$', views.my_reused_view, {'my_template_name': 'some_path'}, name='aurl'),
 # url(r'^/anotherurl/$', views.my_reused_view, {'my_template_name': 'another_path'}, name='anotherurl'),
 
