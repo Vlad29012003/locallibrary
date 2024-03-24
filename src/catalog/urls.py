@@ -14,7 +14,6 @@ urlpatterns = [
     path('mybooks/', views.LoanedBooksByUserListView.as_view(), name='my-borrowed'),
     path('borrowed/', views.LoanedBooksBylibrarianstView.as_view(), name='all-borrowed'),
     path('book/<uuid:pk>/renew/', views.renew_book_librarian, name='renew-book-librarian'),
-    # Остальные пути...
 ]
 
 # url(r'^/url/$', views.my_reused_view, {'my_template_name': 'some_path'}, name='aurl'),
