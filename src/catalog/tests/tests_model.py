@@ -1,6 +1,8 @@
 from django.test import TestCase 
-from catalog.models import Author , Book , Genre
-
+from catalog.models import Author , Book , Genre , BookInstance
+from django.contrib.auth.models import User
+from django.utils import timezone
+import uuid
 
 # Test model Author
 class AuthorModelTest(TestCase):
@@ -105,6 +107,8 @@ class GenreModelTest(TestCase):
     def test_url_method(self):
         genre = Genre.objects.get(id = 1)
         self.assertEqual(str(genre),'Genre')
+
+
 
 # class YourTestCase(TestCase):
 #     @classmethod
