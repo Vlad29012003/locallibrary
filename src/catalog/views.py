@@ -191,8 +191,20 @@ class AuthorDelete(DeleteView):
 
 
 
+class BookCreate(CreateView):
+    model = Book
+    fields = ['title', 'author', 'summary', 'genre']
 
 
+class BookUpdate(UpdateView):
+    model = Book
+    fields = ['title', 'author', 'summary', 'genre']
+
+
+
+class BookDelete(DeleteView):
+    model = Book
+    success_url = reverse_lazy('books')
 
 
 
