@@ -91,6 +91,21 @@ class BookModelTest(TestCase):
     #     self.assertEqual(book.get_absolute_url(), expected_url)
 
 
+class GenreModelTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        Genre.objects.create(name = 'Genre')
+
+
+    def test_name_lable(self):
+        model = Genre.objects.get(id = 1)
+        field_lable = model._meta.get_field('name').max_length
+        self.assertEqual(field_lable ,200)
+
+    def test_url_method(self):
+        genre = Genre.objects.get(id = 1)
+        self.assertEqual(str(genre),'Genre')
+
 # class YourTestCase(TestCase):
 #     @classmethod
 #     def setUpTest_data(cls):
