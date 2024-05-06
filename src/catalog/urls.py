@@ -32,6 +32,11 @@ urlpatterns += [
 ]
 
 
+
+urlpatterns += [
+   path("__debug__/", include("debug_toolbar.urls")),
+]
+
 # url(r'^/url/$', views.my_reused_view, {'my_template_name': 'some_path'}, name='aurl'),
 # url(r'^/anotherurl/$', views.my_reused_view, {'my_template_name': 'another_path'}, name='anotherurl'),
 

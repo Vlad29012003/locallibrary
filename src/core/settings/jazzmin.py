@@ -21,7 +21,7 @@ JAZZMIN_SETTINGS = {
     'copyright':'Geeks Pro',
 
     # Имя поля в модели пользователя, которое содержит аватар ImageField/URLField/Charfield или вызываемый объект, который получает пользователя
-     "user_avatar": 'None',
+     "user_avatar": "avatar",
 
     ############
     # Top Menu #

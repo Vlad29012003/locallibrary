@@ -8,6 +8,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 
+TEME_PARTY_APPS = [
+    'debug_toolbar',
+]
+
 
 APPS = [
     'catalog'
@@ -19,6 +23,7 @@ THEME = [
 ]
 
 INSTALLED_APPS = [
+    *TEME_PARTY_APPS,
     *THEME,
     'django.contrib.admin',
     'django.contrib.auth', # Фреймворк аутентификации и моделей по умолчанию.
@@ -37,6 +42,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',  # Связывает пользователей, использующих сессии, запросами.
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -73,6 +79,12 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+]
+
+
+
+INTERNAL_IPS = [
+   "127.0.0.1",
 ]
 
 
