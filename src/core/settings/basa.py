@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_memcached',
     *APPS
 ]
 
@@ -105,3 +106,14 @@ STATIC_URL = 'catalog/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
+        "LOCATION": [
+            "172.19.26.240:11211"
+            "172.19.26.242:11212"
+            "172.19.26.242:11213"],
+    }
+}
