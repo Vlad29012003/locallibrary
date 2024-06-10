@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import permission_required
 from .models import Book ,BookInstance ,Author 
 from django.views import generic
+from django.core.cache import cache
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.views import LogoutView
 from django.urls import reverse_lazy
@@ -32,17 +33,43 @@ class LoanedBooksByUserListView(LoginRequiredMixin, generic.ListView):
         
 
 def index(request):
-    num_books = Book.objects.all().count()
-    num_book_ins = BookInstance.objects.all().count()
-    num_instances_available = BookInstance.objects.filter(status='a').count()
-    # 'all()' подразумевается по умолчанию.
-    num_authors = Author.objects.count()
+# Кэшированик num_books на 15мин
+    num_books = cache.get('num_books')
+    if not num_books:
+        num_books = Book.objects.all().count()
+        cache.set('num_books' , num_books , timeout=60*15)
+
+# Кэшированик num_book_ins на 15мин
+    num_book_ins = cache.get('num_instances')
+    if not num_book_ins:
+        num_book_ins = BookInstance.objects.all().count()
+        cache.set('num_instances' , num_book_ins , timeout=60*15)
+    
+# Кэшированик num_instances_available на 15мин
+    num_instances_available = cache.get('num_instances_available')
+    if not num_instances_available:
+        num_instances_available = BookInstance.objects.filter(status='a').count()
+        cache.set('num_instances_available' , num_instances_available , timeout=60*15)
+
+# Кэшированик num_authors на 15мин
+    num_authors = cache.get('num_authors')
+    if not num_authors:
+        num_authors = Author.objects.count()
+        cache.set('num_authors' , num_authors , timeout=60*15)
+
+
+
+# Кэшированик all_books на 15мин
+    all_books = cache.get('all_books')
+    if not all_books:
+        all_books = Book.objects.all()
+        cache.set('all_books' , all_books , timeout=60*15)
+
+
 
 # Количество посещений этого представления, подсчитанное в переменной сеанса.
     num_visits=request.session.get('num_visits', 0)
     request.session['num_visits'] = num_visits+1
-
-    all_books = Book.objects.all()  # Получаем все книги
 
     # Отображение HTML-шаблона index.html с данными в переменной контекста.
     return render(
