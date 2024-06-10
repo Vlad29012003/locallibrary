@@ -94,7 +94,11 @@ class BookListView(generic.ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        return Book.objects.all().order_by('title')
+        cashed_book = cache.get('book_list')
+        if not cashed_book:
+            Book.objects.all().order_by('title')
+            cache.set('book_list' , list(cashed_book) , timeout=60*15)
+        return cashed_book
 
     def get_context_data(self, **kwargs):
         context = super(BookListView, self).get_context_data(**kwargs)
