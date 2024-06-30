@@ -110,10 +110,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CACHES = {
     "default": {
-        "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
-        "LOCATION": [
-            "172.19.26.240:11211"
-            "172.19.26.242:11212"
-            "172.19.26.242:11213"],
+        "BACKEND":"django.core.cache.backends.memcached.PyMemcacheCache",
+        "LOCATION":"127.0.0.1:11211"
+    }
+}
+
+# File-based caching 
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/var/tmp/django_cache',  # Укажите путь к каталогу, где будут храниться файлы кэша
     }
 }
