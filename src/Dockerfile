@@ -8,12 +8,13 @@ WORKDIR /app
 
 COPY requirements.txt /app/
 
-RUN pip install -r requirements.txt && \ apt-get clean && \ rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get update && apt-get upgrade -y
+RUN pip install -r requirements.txt
 
-COPY  . .
+COPY . ./app
 
 VOLUME [ "/app/static" ]
 
 EXPOSE 8000
 
-ENTRYPOINT [ "python3" , "manage,py" , "runserver" , "0.0.0.0:8000" ]
+CMD ["bash", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8001"]

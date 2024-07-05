@@ -1,6 +1,38 @@
-version: '3'
+version: '3.8'
+
 services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=locallibrary
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres_data:/var/lib/postgres
+
   web:
-    build: 
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: >
+      bash -c "python manage.py makemigrations &&
+              python manage.py migrate &&
+              python manage.py collectstatic --noinput &&
+              gunicorn web_sms_notification.wsgi:application --bind 0.0.0.0:8008 --timeout 10000 --limit-request-field_size 16384 --workers 2"
+    volumes:
+      - ./source:/code
+    expose:
+      - 8008
+    depends_on:
+      - db
 
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "8080:80"
+      - "443:443"
 
+volumes:
+  postgres_data:
