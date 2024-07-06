@@ -11,9 +11,9 @@ COPY requirements.txt /app/
 RUN apt-get update && apt-get upgrade -y
 RUN pip install -r requirements.txt
 
-COPY . ./app
+COPY . .
 
-VOLUME [ "/app/static" ]
+VOLUME ["/app/staticfiles", "/app/media"]
 
 EXPOSE 8000
 
