@@ -26,5 +26,5 @@ message BooksAuthorsRequest {
 
 service LibraryService {
 
-    rpc SendBooksAndAuthors (BooksAuthorsRequest) returns (Empty)
+    rpc SendBooksAndAuthors (BooksAuthorsRequest) returns (HelloRequest);
 }
